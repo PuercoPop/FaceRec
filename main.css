@@ -1,0 +1,30 @@
+img#main_photo{
+  max-width:680px;
+  border:1px;
+  overflow:auto;
+}
+
+
+
+img.portrait{
+  max-height:128px;
+  max-width:128px;
+}
+
+input.batsu{
+  position:relative;
+  top:0px;
+  left:128px;
+  width:24px;
+}
+
+input.maru{
+  position:relative;
+  top:24px;
+  left:128px;
+  width:24px;
+}
+
+input.portrait[type="text"]{
+ width:140px; 
+}
