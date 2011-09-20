@@ -74,7 +74,7 @@ div.portrait-container:nth-child(1){
 div.portrait-container:nth-child(2){
   position:absolute;
   top:1px;/*164*/
-  left:700px;
+  left:5px;
 }
 
 div.portrait-container:nth-child(3){
@@ -86,23 +86,23 @@ div.portrait-container:nth-child(3){
 div.portrait-container:nth-child(4){
   position:absolute;
   top:164px;/*328*/
-  left:700px;
+  left:1px;
 }
 
 div.portrait-container:nth-child(5){
   position:absolute;
   top:410px;
-  left:700px;
+  left:1px;
 }
 
 div.portrait-container:nth-child(6){
   position:absolute;
   top:492px;
-  left:700px;
+  left:1px;
 }
 
 div.portrait-container:nth-child(7){
   position:absolute;
   top:574px;
-  left:700px;
+  left:1px;
 }
