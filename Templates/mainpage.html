@@ -19,11 +19,11 @@
 
 
   <div class="main-photo-container">
-    <form>
+    <form action="upload_photo.html" method="POST">
       <input class="left_column" type="file" value="Browse for photo" />
       <br />
       <input id="submit" class="left_column btn" type="submit" value="Upload" />
-      </form>
+    </form>
 
     <img src="Test/20100817_003.jpg" alt="" class="large" id="main_photo" />
 
@@ -32,12 +32,14 @@
 
   
   <div class="portrait-container">
-    <img class="portrait" src="Test/face_20100817_003.jpg_0.png" />
+    <form action="Portrait1.html" method="POST"> 
+      <img class="portrait" src="Test/face_20100817_003.jpg_0.png" />
         
-    <input class="portrait batsu" type="button" Value="X">
-    <input class="portrait maru" type="button" Value="O">
+      <input class="portrait batsu" type="button" Value="X">
+      <input class="portrait maru" type="button" Value="O">
     
-    <input class="portrait" type="text" />
+      <input class="portrait" type="text" />
+    </form>
   </div>
 
 
