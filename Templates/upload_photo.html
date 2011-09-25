@@ -1,0 +1,39 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="main.css">
+
+<script src="jquery-1.6.4.js"></script>
+<script src="main.js" ></script>
+
+</head>
+<body>
+<!-- Falta el media Root Se da el photo path y una lista con los portrait paths encontrados-->
+  <div class="main-photo-container">
+    <form action="upload_photo.html" method="POST">
+      <input class="left_column" type="file" value="Browse for photo" />
+      <br />
+      <input id="submit" class="left_column btn" type="submit" value="Upload" />
+    </form>
+
+    <img src="{{ MEDIA_ROOT }}/{{ photo_path }}" alt="" class="large" id="main_photo" />
+
+  </div>
+  
+
+<!-- Falta hacer el loop con template -->
+  
+{% for portrait in portraits %}
+  <div class="portrait-container">
+    <form action="Portrait{{ forloop.counter/portrait}}.html" method="POST"> 
+      <img class="portrait" src="{{ MEDIA_ROOT }}/{{portrait}}" />
+        
+      <input class="portrait batsu" type="button" Value="X">
+      <input class="portrait maru" type="button" Value="O">
+    
+      <input class="portrait" type="text" />
+    </form>
+  </div>
+{% endfor %}
+
+</body>
+</html>
