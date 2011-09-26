@@ -14,9 +14,19 @@ def UploadPhoto(request):
   #c = {}
   #c.update(csrf(request))
   if request.method == 'POST':
+<<<<<<< Updated upstream
 #    print request.FILES
 #    photo_path = request.FILES['name']
 #    handle_uploaded_file(request.FILES['file'], request.FILES['name'])    
+=======
+    print dir(request)
+    print dir(request.POST)
+    print dir(request.FILES)
+    print request.FILES.keys()
+    
+    photo_path = request.FILES['name']#    handle_uploaded_file(request.FILES['file'], request.FILES['name'])    
+  
+>>>>>>> Stashed changes
     #portraits = find_face(,)
     
     form = webuiforms.PhotoForm(request.POST, request.FILES)
