@@ -1,8 +1,8 @@
 from django import forms
 
 class PhotoForm(forms.Form):
-  filename = forms.CharField(max_length=50)
+  title = forms.CharField(max_length=50)
   photo = forms.FileField()
   
-class Portrait():
+class PortraitForm(forms.Form):
   name = forms.CharField
