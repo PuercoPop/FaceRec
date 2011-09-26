@@ -11,7 +11,7 @@
 
 
   <div class="main-photo-container">
-    <form action="upload_photo.html" method="POST">
+    <form action="upload_photo.html" method="POST" enctype="multipart/form-data">{% csrf_token %}
       <input class="left_column" type="file" value="Browse for photo" />
       <br />
       <input id="submit" class="left_column btn" type="submit" value="Upload" />

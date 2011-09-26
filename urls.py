@@ -16,5 +16,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url( r'^WebUi/$',WebUi.views.MainPage ),
+    #url(r'^WebUi/$',WebUi.views.MainPage ),
+    url(r'^upload_photo.html$', WebUi.views.UploadPhoto),
+    url(r'main_page.html',WebUi.views.MainPage),
+    
 )

@@ -1,7 +1,7 @@
 from django import forms
 
-class Photo(forms.Form):
-  filename = forms.CharField()
+class PhotoForm(forms.Form):
+  filename = forms.CharField(max_length=50)
   photo = forms.FileField()
   
 class Portrait():
