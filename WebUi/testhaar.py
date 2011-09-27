@@ -3,7 +3,7 @@ import os
 
 
 def find_faces_dir( directory ):
-  cascade = cv.Load('haarcascade_frontalface_alt.xml')
+  cascade = cv.Load('./haarcascade_frontalface_alt.xml')
 
   for counter_imagen , image in enumerate(os.listdir(directory)):
     img = cv.LoadImage(directory+image)
@@ -26,8 +26,10 @@ def find_faces_dir( directory ):
       cv.SaveImage("Temp_Faces/face_" +str(image[:-4])+"_"+str(counter)+".png",imgface_rsz)
       cv.ResetImageROI(img)
 
-def find_faces( directory ,img_url ):
-  cascade = cv.Load('haarcascade_frontalface_alt.xml')
+def find_faces(  img_url ):
+  cascade = cv.Load('/home/pirata/Data/Pucp/2011-2/Tesis 2/FaceRec/WebUi/haarcascade_frontalface_alt.xml')
+  directory = 'Uploads/'
+  target_directory = 'Uploads/Portraits/'
   portrait_list = []
   
   img = cv.LoadImage( directory + img_url)
@@ -47,12 +49,14 @@ def find_faces( directory ,img_url ):
     imgface_rsz = cv.CreateImage( (128,128) ,img.depth,img.nChannels)
     cv.Copy(img,imgface)
     cv.Resize(imgface, imgface_rsz, cv.CV_INTER_AREA)
-    cv.SaveImage("Temp_Faces/face_" +str(image[:-4])+"_"+str(counter)+".png",imgface_rsz)
+    cv.SaveImage( target_directory + str(img_url[:-4]) + "_" + str(counter ) +".png",imgface_rsz)
+    portrait_list.append(str(img_url[:-4]) + "_" + str(counter ) +".png")
     cv.ResetImageROI(img)
-    
+  print portrait_list  
   return portrait_list
   
  
 if __name__ == "__main__":
-  find_faces_dir( 'Images/')
+  find_faces_dir( '../MockUpCode/Images/')
+  
   

@@ -24,14 +24,14 @@
   </div>
   
 
-<!-- Falta hacer el loop con template 
+<!-- Falta hacer el loop con template -->
 
-{% if portraits %}  
+
   {% for portrait in portraits %}
 
     <div class="portrait-container">
-      <!-- <form action="Portrait  { forloop.counter } .html" method="POST">  
-      <form action="Portrait  { forloop.portrait } .html" method="POST"> 
+      
+      <form action="Portrait  {% portrait %} .html" method="POST"> 
         <img class="portrait" src="{{ MEDIA_ROOT }}/{{portrait}}" />
         
         <input class="portrait batsu" type="button" Value="X">
@@ -41,8 +41,8 @@
       </form>
     </div>
   {% endfor %}
-{% endif %}
--->
+
+
 
 </body>
 </html>

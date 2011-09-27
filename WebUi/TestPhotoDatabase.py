@@ -4,7 +4,7 @@ import cv
 import numpy
 import PIL.Image
 #import pdb
-import IPython
+
 #import matplotlib.pyplot
 
 class Profile:
@@ -193,10 +193,10 @@ class PhotoDatabase:
     #Falta agrupar las ids iguales, calcular el punto medio y la desviación estandar.
     self.d_profiles = self.generate_profiles(self.eigen_faces[:],self.names[:])
     
-    for key in d_profiles.keys()[]
+    for key in d_profiles.keys():
       d_profiles[key].calc_mean_stddev()
     
-    IPython.embed()
+    
     
     #Paso 5
     
