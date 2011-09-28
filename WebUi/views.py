@@ -17,10 +17,10 @@ def UploadPhoto(request):
     
     portraits = testhaar.find_faces( photo_path )
     
-    return render_to_response( 'upload_photo.html', { 'photo_path':'' ,'portraits':portraits} )
+    return render_to_response( 'upload_photo.html', { 'photo_path':photo_path ,'portraits':portraits, 'MEDIA_URL':'Uploads/'} )
   else:
     #form = forms.PhotoForm()
-    return render_to_response( 'upload_photo.html', {'photo_path':'', 'portraits':''} )    
+    return render_to_response( 'upload_photo.html', {'photo_path':'', 'portraits':'', 'MEDIA_URL':'Uploads/'} )    
   
 
 
