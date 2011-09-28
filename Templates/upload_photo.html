@@ -17,7 +17,7 @@
       <input id="submit" class="left_column btn" type="submit" value="Upload" />
     </form>
 
-    <img src="{{ MEDIA_ROOT }}/{{ photo_path }}" alt="" class="large" id="main_photo" />
+    <img src="{{ MEDIA_URL }}/{{ photo_path }}" alt="" class="large" id="main_photo" />
 
     
 
@@ -31,8 +31,8 @@
 
     <div class="portrait-container">
       
-      <form action="Portrait  {% portrait %} .html" method="POST"> 
-        <img class="portrait" src="{{ MEDIA_ROOT }}/{{portrait}}" />
+      <form action="Portrait {% cycle '1' '2' '3' '4' '5' '6' '7' %}.html" method="POST"> 
+        <img class="portrait" src="/Uploads/Portraits/{{portrait}}" />
         
         <input class="portrait batsu" type="button" Value="X">
         <input class="portrait maru" type="button" Value="O">
