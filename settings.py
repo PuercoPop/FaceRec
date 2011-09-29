@@ -57,11 +57,11 @@ MEDIA_URL = 'http://127.0.0.1:8000/Uploads/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/pirata/Data/Pucp/2011-2/Tesis 2/FaceRec/Static/'
+STATIC_ROOT = '/home/pirata/Data/Pucp/2011-2/Tesis 2/FaceRec/Templates/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = 'htpp://127.0.0.1:8000/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
