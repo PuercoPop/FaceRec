@@ -21,5 +21,8 @@ urlpatterns = patterns('',
     url(r'^upload_photo.html$', WebUi.views.UploadPhoto),
     url(r'main_page.html',WebUi.views.MainPage),
     url(r'^Uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root':settings.STATIC_ROOT}),
+    url(r'portrait_chosen',WebUi.views.Portrait_Chosen),
+    url(r'portrait_rejected',WebUi.views.Portrait_Rejected),
     
 )
