@@ -11,19 +11,6 @@ $(document).ready(function() {
   
 });
 
-
-
-
-function on_submit()
-{
-  /*Se llama a la función de python*/
-}
-
-function post_submit()
-{
- /*Una vez que ya se subio la foto y se grabaron los potenciales retratos se les tiene que incorpoar en la página*/ 
-}
-
 function click_maru()
 {
 
@@ -31,7 +18,7 @@ function click_maru()
     var data_params = {
         'TXT_INPUT': $(Id_Texto).val()       
     };
-
+    alert( Id_Texto);
     
     $.ajax({
       type: "POST",
@@ -51,7 +38,15 @@ function click_maru()
 
 function click_batsu()
 {
-   $.ajax({
+  /* Hay que mandar el filname a borrar y hacer .fadeOut a la div entero. Falta disable el Maru*/
+     
+  var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('src') };
+  
+  $('#portrait_container_'+$(this).attr('num')).fadeTo(2000, 0.3,"linear");
+  $(this).prop('disabled', true);
+  
+  
+  $.ajax({
       type: "POST",
       url: "portrait_rejected",
       data: data_params,

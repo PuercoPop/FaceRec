@@ -29,12 +29,12 @@
 
   {% for portrait in portraits %}
 
-    <div class="portrait-container">
+    <div class="portrait-container" id="portrait_container_{% cycle '1' '2' '3' '4' '5' '6' '7' %}">
       
       <form action="Portrait {% cycle '1' '2' '3' '4' '5' '6' '7' %}.html" method="POST"> 
-        <img class="portrait" src="/Uploads/Portraits/{{portrait}}" />
+        <img class="portrait" src="/Uploads/Portraits/{{portrait}}" id="portrait_{% cycle '1' '2' '3' '4' '5' '6' '7' %}" />
         
-        <input class="portrait batsu" type="button" Value="X" num='{% cycle '1' '2' '3' '4' '5' '6' '7' %}' >
+        <input class="portrait batsu" type="button" Value="X" num='{% cycle '1' '2' '3' '4' '5' '6' '7' %}'>
         <input class="portrait maru" type="button" Value="O" num='{% cycle '1' '2' '3' '4' '5' '6' '7' %}'>
         
         <input class="portrait" id="text_{% cycle '1' '2' '3' '4' '5' '6' '7' %}" type="text" />
