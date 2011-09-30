@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Create your views here.
 
-import os,testhaar#, TestPhotoDatabase
+import os,testhaar, TestPhotoDatabase
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.core.context_processors import csrf
@@ -11,6 +11,13 @@ import forms
 def MainPage(request):
   return render_to_response( 'main_page.html', {} )
 
+@csrf_exempt
+def InitMethod(request):
+  """
+  Load Instante of db.
+  """
+  return HttpResponse('Portrait_Chosen')
+  
 @csrf_exempt
 def UploadPhoto(request):
   if request.method == 'POST':
@@ -39,6 +46,8 @@ def Portrait_Chosen(request):
   Idea: hacer un <filename>.json para cada foto y listar los filenames y rótulos de cada
   Idea: una base de datos con photo_filename, portrait_filename y portrait_id (tal vez location in the photo coords)
   """
+  
+  #db.add_portrait( TestPhotoDatabase.Portrait('Temp_Faces/face_Positivo_0.png','Gabylonia') )
   return HttpResponse('Portrait_Chosen')
 
 @csrf_exempt

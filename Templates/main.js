@@ -1,8 +1,7 @@
 $(document).ready(function() {
   // Handler for .ready() called.
   if(window.console){
-    console.log("Cargando  Texto, maru length of " + $('.maru').length );
-    
+    console.log("Loading Document");    
   }
   $('.maru').click(click_maru);
   $('.batsu').click(click_batsu);
@@ -13,22 +12,31 @@ $(document).ready(function() {
 
 function click_maru()
 {
-
-    var Id_Texto =  '#text_' + $(this).attr('num');
+    /*Hay que mandar tanto el path como el identificador de la persona*/
+    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('src') , 'portraid_name': $('#text_' + $(this).attr('num')).val() };
+    
+    /*var Id_Texto =  '#text_' + $(this).attr('num');
     var data_params = {
-        'TXT_INPUT': $(Id_Texto).val()       
-    };
-    alert( Id_Texto);
+        'TXT_INPUT': $(Id_Texto).val()
+    };*/
+    
     
     $.ajax({
       type: "POST",
       url: "portrait_chosen",
       data: data_params,
       success: function(msg){
-        alert( "Data Saved: " + msg );
+        if(window.console)
+         {
+           console.log("Sucess Maru");
+         }
       },
-      error: function(jqXHR, textStatus, errorThrown){
-        alert("Fallo Post");        
+      error: function(jqXHR, textStatus, errorThrown)
+      {
+        if(window.console)
+         {
+           console.log("Fail Maru");
+         }
       }
     });  
   
@@ -42,7 +50,7 @@ function click_batsu()
      
   var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('src') };
   
-  $('#portrait_container_'+$(this).attr('num')).fadeTo(2000, 0.3,"linear");
+  $('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
   $(this).prop('disabled', true);
   
   
@@ -51,10 +59,16 @@ function click_batsu()
       url: "portrait_rejected",
       data: data_params,
       success: function(msg){
-        alert( "Data Saved: " + msg );
+         if(window.console)
+         {
+           console.log("Sucess Batsu");
+         }
       },
       error: function(jqXHR, textStatus, errorThrown){
-        alert("Fallo Post");        
+        if(window.console)
+         {
+           console.log("Fail Batsu");
+         }
       }
     });  
 }
