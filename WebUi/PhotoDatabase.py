@@ -8,6 +8,14 @@ import models
 
 #import matplotlib.pyplot
 
+"""
+Clases modificada para usar base de datos
+
+"""
+
+def retrive_profiles_from_db():
+  pass
+
 class Profile:
   def __init__(self, id, column ):
     """
@@ -15,6 +23,7 @@ class Profile:
     column: vector de la foto
     sample_count: número de muestras (flato)
     Agregar un flag processed?
+    Agregar un class variable de eigenvectors
     """
     self.name = id
     self.matrix = numpy.array( column).reshape(-1,1)
@@ -35,16 +44,21 @@ class Profile:
   def max_distance(self):
     return self.std_dev * 3
   
-  def fits_profile(self, candidate):
+  def fits_profile(self, candidate , eigenvectors):
     """
     candidate: vector columna de la nueva muestra
     returns: la distancia que los separa y el signo + significa que si pertenece y el negativo que no.
     """
+    print "Candidate:",candidate.shape
+    print "Eigenvectors:",eigenvectors.shape
     
+    candidate,res_sum,rank,s = numpy.linalg.lstsq(eigenvectors,candidate.reshape(-1,1))
     tmp_vec = self.matrix_mean - candidate
     distance = numpy.dot( tmp_vec.T , tmp_vec ) #scalar
-    
-    if distance < max_distance():
+    print "Candidate:",candidate.shape
+    print "Matrix Mean:",self.matrix_mean.shape
+    print "Max Distance:",self.max_distance(), self.max_distance().shape
+    if distance < self.max_distance():
       return distance
     else:
       return -1 * distance
@@ -58,12 +72,18 @@ class PhotoDatabase:
   diff_Matrix: los imagenes expresadas en vectores con respecto a la media
   """
   def __init__(self):
+    """
+    Load from DB
+    """
     self.db_Matrix = None
     self.names = []
     self.diff_Matrix = None
     self.eigv_Matrix = None
     
+    for portrait in models.Portrait.objects.all():
+      self.add_portrait( Portrait(portrait.path,portrait.name) )
       
+  
   def sort_eigvectors(self, eig_val, eig_vec):
     """
     Definitivamente no la solución más optima.
@@ -125,15 +145,17 @@ class PhotoDatabase:
       """
       Primero se proyecta el retrato
       """
-      new_face, res_sum,rank,s = numpy.linalg.lstsq( self.eigenvectors, column)
+      column = column - self.avg_Matrix#Revisar si el sentido esta bien
+      
+      new_face, res_sum,rank,s = numpy.linalg.lstsq( self.eigenvectors, column.reshape(-1,1) )
       
       candidates = []
       candidates_rank = []
       for key in self.d_profiles.keys():
-        result = d_profiles[key].fits_profile(column)
+        result = self.d_profiles[key].fits_profile(column,self.eigenvectors)
         if result > 0:
           candidates_rank.append( result )
-          candidates.append( d_profiles[key] )
+          candidates.append( self.d_profiles[key] )
       
       #Si hay más de un match se elige el que tiene menos distancia
       if len(candidates) == 1:
@@ -178,7 +200,9 @@ class PhotoDatabase:
     #Paso 1
     #Se obtiene la imagen promedio, Se expresan las imagenes como diferencia a la media aritmética
     self.avg_Matrix = self.db_Matrix.mean( axis = 0 )
-    self.diff_Matrix = self.avg_Matrix - self.db_Matrix
+    self.diff_Matrix = self.db_Matrix - self.avg_Matrix
+    #self.diff_Matrix = self.avg_Matrix - self.db_Matrix
+    
     #Paso 2
     #Exraer los autovalores de la matriz de covarianza( Truco A.T * A ) Pero como estan como filas por defecto en numpy
     covar_Matrix_i = numpy.dot( self.diff_Matrix , self.diff_Matrix.T)
@@ -188,6 +212,7 @@ class PhotoDatabase:
     eig_val, eig_vec = self.sort_eigvectors( eigenvalues_i[:], eigenvectors_i[:])
     #ahora transformarlos a los autovalroes de a la matrix de Covarianza al través de A*v
     self.eigenvectors = numpy.dot( self.diff_Matrix.T , eig_vec)
+    
     #Paso 3 
     #x vector proyectado al subspacio
     #x,res_sum,rank,s = numpy.linalg.lstsq( self.eigenvectors, self.diff_Matrix[0].T)
@@ -195,8 +220,8 @@ class PhotoDatabase:
     #Falta agrupar las ids iguales, calcular el punto medio y la desviación estandar.
     self.d_profiles = self.generate_profiles(self.eigen_faces[:],self.names[:])
     
-    for key in d_profiles.keys():
-      d_profiles[key].calc_mean_stddev()
+    for key in self.d_profiles.keys():
+      self.d_profiles[key].calc_mean_stddev()
     
     
     
@@ -247,7 +272,7 @@ class Portrait:
   def __init__(self, img_path, name, size=None):
     self.name = name
     self.img_path = img_path
-        
+    
     self.img = cv.LoadImage( self.img_path )
     
     if size == None:
