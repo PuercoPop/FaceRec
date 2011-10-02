@@ -6,20 +6,13 @@ $(document).ready(function() {
   $('.maru').click(click_maru);
   $('.batsu').click(click_batsu);
   
-
   
 });
 
 function click_maru()
 {
     /*Hay que mandar tanto el path como el identificador de la persona*/
-    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('src') , 'portraid_name': $('#text_' + $(this).attr('num')).val() };
-    
-    /*var Id_Texto =  '#text_' + $(this).attr('num');
-    var data_params = {
-        'TXT_INPUT': $(Id_Texto).val()
-    };*/
-    
+    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('src') , 'portrait_name': $('#text_' + $(this).attr('num')).val(),'parent_photo':$('#main_photo').attr('src') };
     
     $.ajax({
       type: "POST",
