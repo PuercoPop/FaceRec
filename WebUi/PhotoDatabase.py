@@ -38,7 +38,8 @@ class Profile:
     (row_count, col_count) = self.matrix.shape
     accum = 0
     for col in range(col_count):
-      accum += ( self.matrix_mean - self.matrix[:,col].reshape(-1,1) ) ** 2
+      tmp = self.matrix_mean - self.matrix[:,col].reshape(-1,1)
+      accum += numpy.dot(tmp.T,tmp)
     self.std_dev = accum / float( self.sample_count)
   
   def max_distance(self):
@@ -49,14 +50,11 @@ class Profile:
     candidate: vector columna de la nueva muestra
     returns: la distancia que los separa y el signo + significa que si pertenece y el negativo que no.
     """
-    print "Candidate:",candidate.shape
-    print "Eigenvectors:",eigenvectors.shape
     
     candidate,res_sum,rank,s = numpy.linalg.lstsq(eigenvectors,candidate.reshape(-1,1))
     tmp_vec = self.matrix_mean - candidate
     distance = numpy.dot( tmp_vec.T , tmp_vec ) #scalar
-    print "Candidate:",candidate.shape
-    print "Matrix Mean:",self.matrix_mean.shape
+    print "Distance:",distance,distance.shape
     print "Max Distance:",self.max_distance(), self.max_distance().shape
     if distance < self.max_distance():
       return distance
@@ -158,14 +156,18 @@ class PhotoDatabase:
           candidates.append( self.d_profiles[key] )
       
       #Si hay más de un match se elige el que tiene menos distancia
+      
       if len(candidates) == 1:
         print "Match:", candidates[0].name
-        matched_profile = candidates[0]
-      else:
+        return candidates[0]
+      elif len(candidates) > 1:
         print "Match:", candidates[ candidates_rank.index( min(candidates_rank) ) ].name
-        matched_profile = candidates[ candidates_rank.index( min(candidates_rank) ) ].name
+        #return matched_profile = candidates[ candidates_rank.index( min(candidates_rank) ) ].name
+        return candidates[ candidates_rank.index( min(candidates_rank) ) ].name
       #If no match
-      print "No Match"
+      else:
+        print "No Match"
+        #return ""
   
   def add_portrait( self, portrait  ):
     #add column to database
