@@ -31,7 +31,10 @@ function click_maru()
            console.log("Fail Maru");
          }
       }
-    });  
+    });
+    
+    $(this).css('color','#1FF507');
+    $(this).prop('disabled',true);
   
 }
 

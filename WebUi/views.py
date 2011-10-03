@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # Create your views here.
 
-import os,testhaar, PhotoDatabase
+import os
+import testhaar
+import PhotoDatabase
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.core.context_processors import csrf
@@ -32,17 +34,34 @@ def UploadPhoto(request):
     p = models.Photo(path=u'Uploads/' + photo_path)
     p.save()
     
+    
     q = models.Portrait.objects.all()
-    if q:
+    if q.count() > 2:#q tiene que ser mayor a 2 para que se pueda hacer una proyeccion
       db = PhotoDatabase.PhotoDatabase()
       db.process_db()
       
+      portrait_pair = []
       for portrait_path in portraits:
-        db.evaluate_new_face( PhotoDatabase.Portrait(portrait_path,'blah').vectorize() )
+        p = db.evaluate_new_face( PhotoDatabase.Portrait(portrait_path,'blah').vectorize() )
+        if p:
+          portrait_pair.append( {'src':portrait_path,'name':p.name} )
+        else:
+          portrait_pair.append( {'src':portrait_path,'name':''} )
+      
     else:
       print 'vacia'
     
-    return render_to_response( 'upload_photo.html', { 'photo_path':photo_path ,'portraits':portraits, 'MEDIA_URL':'Uploads/', 'STATIC_URL':'static/'} )
+    fPass = True
+    autocomplete_list = u'['
+    for p in q.values('name').distinct('name'):
+      if fPass:
+        autocomplete_list += u'"' + p['name'] + u'"'
+        fPass = False
+      else:
+        autocomplete_list += u',"'+p['name'] + u'"'
+    autocomplete_list += u']'
+    
+    return render_to_response( 'upload_photo.html', { 'photo_path':photo_path ,'portraits':portrait_pair, 'MEDIA_URL':'Uploads/', 'STATIC_URL':'static/' , 'autocomplete_list':autocomplete_list} )
   else:
     #form = forms.PhotoForm()
     return render_to_response( 'upload_photo.html', {'photo_path':'', 'portraits':'', 'MEDIA_URL':'Uploads/', 'STATIC_URL':'static/'} )
