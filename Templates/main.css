@@ -3,9 +3,16 @@ body{
 }
 
 div.info-box{
+ width:330px;
  position:absolute;
  top:0px;
  left:900px;
+ background:#fff4c8;
+ border-width:4px;
+ border-color:black;
+ border-style:solid;
+ margin:5px;
+ padding:10px;
 }
 
 img#main_photo{
@@ -64,57 +71,3 @@ div.portrait-container{
   position:absolute;
   left:700px;
 }
-
-/*
- Pongo el desplacamiento para 7 retratos
- 
-
-div.portrait-container:first-child{
-  position:absolute;
-  top:1px;
-  left:1px;
-}
-
-
-div.portrait-container:nth-child(1){
-  position:absolute;
-  top:82px;
-  left:1px;
-}
-
-div.portrait-container:nth-child(2){
-  position:absolute;
-  top:1px;/*164/
-  left:700px;
-}
-
-div.portrait-container:nth-child(3){
-  position:absolute;
-  top:82px;/*246/
-  left:700px;
-}
-
-div.portrait-container:nth-child(4){
-  position:absolute;
-  top:164px;/*328/
-  left:700px;
-}
-
-div.portrait-container:nth-child(5){
-  position:absolute;
-  top:410px;
-  left:700px;
-}
-
-div.portrait-container:nth-child(6){
-  position:absolute;
-  top:492px;
-  left:700px;
-}
-
-div.portrait-container:nth-child(7){
-  position:absolute;
-  top:574px;
-  left:700px;
-}
-*/
