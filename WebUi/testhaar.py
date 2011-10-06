@@ -1,6 +1,7 @@
 import cv
 import os
 
+
 def find_faces_dir( directory ):
   cascade = cv.Load('./haarcascade_frontalface_alt.xml')
 
@@ -26,9 +27,9 @@ def find_faces_dir( directory ):
       cv.ResetImageROI(img)
 
 def find_faces(  img_url ):
-  cascade = cv.Load('/home/puercopop/webapps/django/myproject/WebUi/haarcascade_frontalface_alt.xml')
-  directory = '/home/puercopop/webapps/django/myproject/Uploads/'
-  target_directory = '/home/puercopop/webapps/django/myproject/Uploads/Portraits/'
+  cascade = cv.Load('/home/pirata/Data/Pucp/2011-2/Tesis 2/FaceRec/WebUi/haarcascade_frontalface_alt.xml')
+  directory = 'Uploads/'
+  target_directory = 'Uploads/Portraits/'
   portrait_list = []
   
   img = cv.LoadImage( directory + img_url)
@@ -48,8 +49,8 @@ def find_faces(  img_url ):
     imgface_rsz = cv.CreateImage( (128,128) ,img.depth,img.nChannels)
     cv.Copy(img,imgface)
     cv.Resize(imgface, imgface_rsz, cv.CV_INTER_AREA)
-    cv.SaveImage( target_directory + str(img_url[:-4])  + "_" + str(counter ) +".png",imgface_rsz)
-    portrait_list.append( 'Uploads/Portraits/'+ str(img_url[:-4]) + "_" + str(counter ) +".png")
+    cv.SaveImage( target_directory + str(img_url[:-4]) + "_" + str(counter ) +".png",imgface_rsz)
+    portrait_list.append( target_directory + str(img_url[:-4]) + "_" + str(counter ) +".png")
     cv.ResetImageROI(img)
   
   return portrait_list
