@@ -22,9 +22,11 @@
       <br />
       <input id="submit" class="left_column btn" type="submit" value="Upload" />
     </form>
-
-    <img src="{{ MEDIA_URL }}{{ photo_path }}" alt="" class="large" id="main_photo" />
-
+    {% if photo_path %}
+      <img src="{{ MEDIA_URL }}{{ photo_path }}" alt="" class="large" id="main_photo" />
+    {% else %}
+      <img src="no_image.png" alt="" class="large" id="main_photo" />
+    {% endif %}
     
 
   </div>
@@ -32,23 +34,34 @@
 
 <!-- Falta hacer el loop con template -->
 
+  {% if portraits %}
+    {% for portrait in portraits %}
 
-  {% for portrait in portraits %}
-
-    <div class="portrait-container" id="portrait_container_{% cycle '1' '2' '3' '4' '5' '6' '7' %}">
+      <div class="portrait-container" id="portrait_container_{{ forloop.counter }}">
       
-      <form action="Portrait {% cycle '1' '2' '3' '4' '5' '6' '7' %}.html" method="POST"> 
-        <img class="portrait" src="/{{ portrait.src }}" id="portrait_{% cycle '1' '2' '3' '4' '5' '6' '7' %}" />
+        <form action="Portrait {{ forloop.counter }}.html" method="POST"> 
+          <img class="portrait" src="/{{ portrait.src }}" id="portrait_{{ forloop.counter }}" />
         
-        <input class="portrait batsu" type="button" Value="X" num='{% cycle '1' '2' '3' '4' '5' '6' '7' %}' >
-        <input class="portrait maru" type="button" Value="O" num='{% cycle '1' '2' '3' '4' '5' '6' '7' %}'  >
+          <input class="portrait batsu" type="button" Value="X" num='{{ forloop.counter }}' >
+          <input class="portrait maru" type="button" Value="O" num='{{ forloop.counter }}'  >
         
-        <input class="portrait" id="text_{% cycle '1' '2' '3' '4' '5' '6' '7' %}" type="text" value="{{ portrait.name }}" />
-      </form>
-    </div>
-  {% endfor %}
+          <input class="portrait" id="text_{{ forloop.counter }}" type="text" value="{{ portrait.name }}" />
+        </form>
+      </div>
+    {% endfor %}
+  {% endif %}
 
 
+
+  <div class="info-box">
+  <h1>Instrucciones</h1>
+  <ul>
+    <li>Subir una fotos con rostros de perfil
+    <li>Rotular cada retrato y presionar 'O'
+    <li>En caso de un falso positivo, presionar 'X'
+    <li>Usar el mismo rótulo para cada persona. Aparecera una lista sugiriendo los nombres previamente ingresados.
+  <ul>
+  </div>
 
 </body>
 </html>
