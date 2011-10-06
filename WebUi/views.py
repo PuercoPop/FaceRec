@@ -36,11 +36,11 @@ def UploadPhoto(request):
     
     
     q = models.Portrait.objects.all()
+    portrait_pair = []
     if q.count() > 2:#q tiene que ser mayor a 2 para que se pueda hacer una proyeccion
       db = PhotoDatabase.PhotoDatabase()
       db.process_db()
       
-      portrait_pair = []
       for portrait_path in portraits:
         p = db.evaluate_new_face( PhotoDatabase.Portrait(portrait_path,'blah').vectorize() )
         if p:
@@ -49,7 +49,8 @@ def UploadPhoto(request):
           portrait_pair.append( {'src':portrait_path,'name':''} )
       
     else:
-      print 'vacia'
+      for portrait_path in portraits:
+        portrait_pair.append( {'src':portrait_path,'name':''} )
     
     fPass = True
     autocomplete_list = u'['

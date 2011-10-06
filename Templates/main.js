@@ -6,6 +6,9 @@ $(document).ready(function() {
   $('.maru').click(click_maru);
   $('.batsu').click(click_batsu);
   
+  $( "div.portrait-container").each( function( index,ele) { $(this).css('top', 90*(index+1) + 'px') } );
+  
+  
   
 });
 
@@ -48,7 +51,7 @@ function click_batsu()
   
   $('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
   $(this).prop('disabled', true);
-  
+  $(this).css('color','#CC0000');
   
   $.ajax({
       type: "POST",
