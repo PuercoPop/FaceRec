@@ -33,8 +33,7 @@ def UploadPhoto(request):
     portraits = testhaar.find_faces( photo_path )
     p = models.Photo(path=u'Uploads/' + photo_path)
     p.save()
-    
-    
+     
     q = models.Portrait.objects.all()
     portrait_pair = []
     if q.count() > 2:#q tiene que ser mayor a 2 para que se pueda hacer una proyeccion
@@ -70,7 +69,7 @@ def UploadPhoto(request):
 
 
 def handle_uploaded_file(file_data):
-    destination = open(  'Uploads/' + file_data.name, 'wb+')
+    destination = open( '/home/puercopop/webapps/django/myproject/Uploads/' + file_data.name, 'wb+')
     for chunk in file_data.chunks():
         destination.write(chunk)
     destination.close()
