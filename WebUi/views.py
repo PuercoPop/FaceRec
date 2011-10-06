@@ -49,7 +49,7 @@ def UploadPhoto(request):
       
     else:
       for portrait_path in portraits:
-        portrait_pair.append( {'src':portrait_path,'name':''  } )
+        portrait_pair.append( {'src':portrait_path,'name':''} )
     
     fPass = True
     autocomplete_list = u'['
