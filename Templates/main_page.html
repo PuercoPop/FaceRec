@@ -1,25 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="main.css">
+<style type="text/css">
+div.floating-menu{
+  position:fixed;
+  background:#fff4c8;
+  border:1px solid #ffcc00;
+  width:150px;z-index:100;
+}
 
-<script src="jquery-1.6.4.js"></script>
-<script src="main.js" ></script>
+div.floating-menu a, div.floating-menu h3{
+  display:block;
+  margin:0 0.5em;
+}
 
+div > h1{
+ text-align:center; 
+
+}
+</style>
 </head>
+
 <body>
 
+<div class="Banner">
+<h1>Bienvenidos a la P&aacutegina de PuercoPop</h1>
+</div>
 
-  <div class="main-photo-container">
-    <form action="upload_photo.html" method="POST" enctype="multipart/form-data">
-      <input class="left_column" type="file" value="Browse for photo" />
-      <br />
-      <input id="submit" class="left_column btn" type="submit" value="Upload" />
-    </form>
+<div class="floating-menu">
+<h3>Menu Princpal</h3>
+<a href="wordpress/">Mi Blog</a>
+<a href="upload_photo.html">Mi Tesis/</a>
+</div>
 
-    <img src="" alt="" class="large" id="main_photo" />
-
-  </div>
 
 </body>
+
+
 </html>
