@@ -3,14 +3,14 @@ from django.db import models
 # Create your models here.
 
 class Photo(models.Model):
-  path = models.CharField(max_length=60,primary_key=True)
+  path = models.CharField(max_length=100,primary_key=True)
 
 class Portrait(models.Model):
   """
   guarda el nombre de la foto de la cual se retrato
   """
   name = models.CharField(max_length=20) #min_length=1
-  path = models.CharField(max_length=60,primary_key=True)
+  path = models.CharField(max_length=100,primary_key=True)
   array = models.CharField(max_length=200)#Array usar numpy.tostr method
   fromPhoto = models.ForeignKey('Photo')
 
