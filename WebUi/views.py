@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 import forms,models
+from flag import __server__
 
 def MainPage(request):
   return render_to_response( 'main_page.html', {} )
@@ -70,7 +71,12 @@ def UploadPhoto(request):
 
 
 def handle_uploaded_file(file_data):
-    destination = open(  'Uploads/' + file_data.name, 'wb+')
+    if __server__ == "home":
+      destination = open(  'Uploads/' + file_data.name, 'wb+')
+    elif __server__ == "production":
+      destination = open(  '/home/puercopop/webapps/django/myproject/Uploads/' + file_data.name, 'wb+')
+      
+      
     for chunk in file_data.chunks():
         destination.write(chunk)
     destination.close()
@@ -105,7 +111,10 @@ def Portrait_Rejected(request):
   """
   if request.method == 'POST':
     portrait_path = request.POST.get('portrait_id')[1:]#Remueve el / inicial
-    os.remove(portrait_path)
+    if __server__ == "home":
+      os.remove(portrait_path)
+    elif __server__ == "production":
+      os.remove(portrait_path)
     return HttpResponse('Portrait_Rejected Sucess')
   else:
     return HttpResponse('Portrait_Rejected Failed')
