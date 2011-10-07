@@ -57,7 +57,7 @@ def find_faces(  img_url ):
     cv.Copy(img,imgface)
     cv.Resize(imgface, imgface_rsz, cv.CV_INTER_AREA)
     cv.SaveImage( target_directory + str(img_url[:-4]) + "_" + str(counter ) +".png",imgface_rsz)
-    portrait_list.append( 'Uploads/Portraits' + str(img_url[:-4]) + "_" + str(counter ) +".png")
+    portrait_list.append( 'Uploads/Portraits/' + str(img_url[:-4]) + "_" + str(counter ) +".png")
     cv.ResetImageROI(img)
   
   return portrait_list

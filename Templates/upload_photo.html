@@ -40,7 +40,7 @@
       <div class="portrait-container" id="portrait_container_{{ forloop.counter }}">
       
         <form action="Portrait {{ forloop.counter }}.html" method="POST"> 
-          <img class="portrait" src="/{{ portrait.src }}" id="portrait_{{ forloop.counter }}" />
+          <img class="portrait" src="{{ portrait.src }}" id="portrait_{{ forloop.counter }}" />
         
           <input class="portrait batsu" type="button" Value="X" num='{{ forloop.counter }}' >
           <input class="portrait maru" type="button" Value="O" num='{{ forloop.counter }}'  >
