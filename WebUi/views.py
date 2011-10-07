@@ -92,9 +92,12 @@ def Portrait_Chosen(request):
   
   if request.method == 'POST':
     name = request.POST.get('portrait_name')
-    path = request.POST.get('portrait_path')[1:]
-    src = request.POST.get('parent_photo')
-    #src = src.replace('//','/')
+    if __server__ == "home":
+      path = request.POST.get('portrait_path')
+      src = request.POST.get('parent_photo')
+    elif __server__ == "production":
+      path = '/home/puercopop/webapps/django/myproject/' + request.POST.get('portrait_path')
+      src = request.POST.get('parent_photo')
     
     portrait = PhotoDatabase.Portrait(path,name)
     parent = models.Photo.objects.get(path=src)
@@ -113,8 +116,9 @@ def Portrait_Rejected(request):
     portrait_path = request.POST.get('portrait_id')#Remueve el / inicial
     if __server__ == "home":
       os.remove(portrait_path)
+      return HttpResponse('Portrait_Rejected Sucess')
     elif __server__ == "production":
-      os.remove(portrait_path)
-    return HttpResponse('Portrait_Rejected Sucess')
+      os.remove('/home/puercopop/webapps/django/myproject/' + portrait_path)
+      return HttpResponse('Portrait_Rejected Sucess')
   else:
     return HttpResponse('Portrait_Rejected Failed')
