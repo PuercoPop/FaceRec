@@ -110,7 +110,7 @@ def Portrait_Rejected(request):
   Remueve la imagen
   """
   if request.method == 'POST':
-    portrait_path = request.POST.get('portrait_id')[1:]#Remueve el / inicial
+    portrait_path = request.POST.get('portrait_id')#Remueve el / inicial
     if __server__ == "home":
       os.remove(portrait_path)
     elif __server__ == "production":
