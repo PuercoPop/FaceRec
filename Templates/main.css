@@ -71,3 +71,31 @@ div.portrait-container{
   position:absolute;
   left:700px;
 }
+
+img.gallery {
+    max-height:256px;
+    max-width:256px;
+}
+
+table {
+    table-layout:auto;
+}
+
+td,th {
+    border-style:solid;
+    border-width:1px;
+    padding-left:42px;
+    padding-right:42px;
+ }
+
+th {
+    background-color: #fff4c8;
+}
+
+td {
+    max-width:210px;
+}
+li {
+    list-style:none;
+    overflow:visible;
+}

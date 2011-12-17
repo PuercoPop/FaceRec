@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Create your views here.
 
-import os
+import os,re
 import testhaar
 import PhotoDatabase
 from django.shortcuts import render_to_response
@@ -13,6 +13,17 @@ from flag import __server__
 
 def MainPage(request):
   return render_to_response( 'main_page.html', {} )
+
+def Galeria(request):
+  photos = []
+  for photo in [ x for x in os.listdir('Uploads/') if x != 'Portraits' ]:
+    photos.append({
+        'name': photo,
+        'path': 'Uploads/' + photo,
+        'portraits': [ { 'name':x, 'path': '/Uploads/Portraits/'+x } for x in os.listdir('Uploads/Portraits') if re.match('^' + photo[:-4] + '_\d.png$',x) ]            
+        })
+
+  return render_to_response( 'galleria.html', { 'photos':photos})
 
 @csrf_exempt
 def InitMethod(request):
