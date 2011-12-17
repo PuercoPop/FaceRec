@@ -16,12 +16,21 @@ def MainPage(request):
 
 def Galeria(request):
   photos = []
-  for photo in [ x for x in os.listdir('Uploads/') if x != 'Portraits' ]:
-    photos.append({
-        'name': photo,
-        'path': 'Uploads/' + photo,
-        'portraits': [ { 'name':x, 'path': '/Uploads/Portraits/'+x } for x in os.listdir('Uploads/Portraits') if re.match('^' + photo[:-4] + '_\d.png$',x) ]            
-        })
+  if __server__ == "home":
+    for photo in [ x for x in os.listdir('Uploads/') if x != 'Portraits' ]:
+      photos.append({
+          'name': photo,
+          'path': 'Uploads/' + photo,
+          'portraits': [ { 'name':x, 'path': '/Uploads/Portraits/'+x } for x in os.listdir('Uploads/Portraits') if re.match('^' + photo[:-4] + '_\d.png$',x) ]            
+          })
+  elif __server__ == "production":
+    for photo in [ x for x in os.listdir('/home/puercopop/webapps/django/myproject/Uploads/') if x != 'Portraits' ]:
+      photos.append({
+          'name': photo,
+          'path': '/home/puercopop/webapps/django/myproject/Uploads/' + photo,
+          'portraits': [ { 'name':x, 'path': '/Uploads/Portraits/'+x } for x in os.listdir('/home/puercopop/webapps/django/myproject/Uploads/Portraits') if re.match('^' + photo[:-4] + '_\d.png$',x) ]            
+          })
+
 
   return render_to_response( 'galleria.html', { 'photos':photos})
 
