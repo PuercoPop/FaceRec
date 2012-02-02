@@ -27,7 +27,7 @@ def Galeria(request):
     for photo in [ x for x in os.listdir('/home/puercopop/webapps/django/myproject/Uploads/') if x != 'Portraits' ]:
       photos.append({
           'name': photo,
-          'path': '/home/puercopop/webapps/django/myproject/Uploads/' + photo,
+          'path': '/Uploads/' + photo,
           'portraits': [ { 'name':x, 'path': '/Uploads/Portraits/'+x } for x in os.listdir('/home/puercopop/webapps/django/myproject/Uploads/Portraits') if re.match('^' + photo[:-4] + '_\d.png$',x) ]            
           })
 

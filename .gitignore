@@ -5,3 +5,5 @@ flag.py
 *.pyc
 Uploads/*
 Uploads/Portraits/*
+env/*
+MockCode/*
