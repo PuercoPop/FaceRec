@@ -95,7 +95,20 @@ th {
 td {
     max-width:210px;
 }
+
+ul {
+    text-align:center;
+    padding-right:0px;
+    padding-left:0px;
+}
+
 li {
     list-style:none;
-    overflow:visible;
+    overflow:hidden;
+}
+
+th li {
+    z-index:1;
+    background-color: #fff4c8;
+    overflow:hidden;
 }

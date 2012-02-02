@@ -1,12 +1,15 @@
 # Django settings for FaceRec project.
-import sys
-sys.path.append('/home/puercopop/lib/python2.7/site-packages/')
 
-DEBUG = False
+from os.path import dirname, join,realpath
+
+#__file__ es es el settings dir
+ROOT_DIR = realpath(join(dirname(__file__), '..', '..'))
+PROJECT_DIR = realpath(join(dirname(__file__), '..'))
+
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
      ('Javier Olaechea','pirata@gmail.com'),
 )
 
@@ -14,12 +17,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'puercopop',                      # Or path to database file if using sqlite3.
-        'USER': 'puercopop',                      # Not used with sqlite3.
-        'PASSWORD': 'testdatabase',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': 'tesis',
+        'USER': 'pirata',
+        'PASSWORD': '', 
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -48,22 +51,22 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/home/puercopop/webapps/django/myproject/Uploads/'
+MEDIA_ROOT = realpath(join(ROOT_DIR, 'media'))
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = 'http://www.puercopop.com/Uploads//'
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/home/puercopop/webapps/django/myproject/Templates/'
+STATIC_ROOT = realpath(join(ROOT_DIR, 'static'))
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://www.puercopop.com/static/'
+STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -95,6 +98,14 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.debug',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -104,13 +115,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
 )
 
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/puercopop/webapps/django/myproject/Templates'
+    realpath(join(ROOT_DIR, 'templates'))
 
 )
 
@@ -125,8 +136,10 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     #'django.contrib.admindocs',
+
+
     #MyApps
-    'myproject.WebUi',
+    'WebUi',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -151,3 +164,10 @@ LOGGING = {
         },
     }
 }
+
+DEFAULT_CACHE_TIMEOUT = 5
+
+try:
+    from local_settings import *
+except:
+    pass
