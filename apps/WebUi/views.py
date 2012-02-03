@@ -21,16 +21,6 @@ def MainPage(request):
 def Galeria(request):
 
   photos = []
-#  for photo in [ x for x in listdir( join(settings.MEDIA_ROOT, 'Uploads/')  ) if x != 'Portraits') or (x != '.directory')]:
-  """
-  for photo in [ x for x in listdir( join(settings.MEDIA_ROOT, 'Uploads/')  ) if x not in ('Portraits', '.directory')]:
-   
-    photos.append({
-        'name':photo,
-        'path': 'Uploads/'+ photo,
-        'portraits': [{ 'name':x, 'path': '/Uploads/Portraits/'+x} for x in listdir( join(settings.MEDIA_ROOT, 'Uploads/Portraits') ) if re.match('^' + photo[:4] + '_\d.png', x) ]
-          })
-    """
   for photo in models.Photo.objects.all():
     portraits = []
     for portrait in models.Portrait.objects.filter( fromPhoto = photo ):
@@ -38,6 +28,7 @@ def Galeria(request):
           'name': portrait.name,
           'path': portrait.path, 
           })
+
     photos.append({
         'name': photo.path,
         'path': photo.path,
@@ -47,14 +38,7 @@ def Galeria(request):
 
   return render( request, 'WebUi/galleria.html', { 'photos':photos} )
 
-@csrf_exempt
-def InitMethod(request):
-  """
-  Load Instante of db.
-  """
-  return HttpResponse('Portrait_Chosen')
-  
-@csrf_exempt
+
 def UploadPhoto(request):
   """
   Falta introducir el predcitor
@@ -110,7 +94,6 @@ def handle_uploaded_file(file_data):
     destination.write(chunk)
   destination.close()
 
-@csrf_exempt
 def Portrait_Chosen(request):
   """
   ToDo: Introducir el Rotulo de la image, asociado al portrait y la imagen inicial mostrada
@@ -132,7 +115,6 @@ def Portrait_Chosen(request):
     
     return HttpResponse('Portrait_Chosen')
 
-@csrf_exempt
 def Portrait_Rejected(request):
   """
   Remueve la imagen
