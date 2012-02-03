@@ -1,16 +1,13 @@
 import cv
 import os
-from flag import __server__
+from os.path import join
+from django.conf import settings
+
 
 def find_faces(  img_url ):
-  if __server__ == "home":
-    cascade = cv.Load('/home/pirata/Data/Pucp/2011-2/Tesis 2/FaceRec/WebUi/haarcascade_frontalface_alt.xml')
-    directory = 'Uploads/'
-    target_directory = 'Uploads/Portraits/'
-  elif __server__ == "production":
-    cascade = cv.Load('/home/puercopop/webapps/django/myproject/WebUi/haarcascade_frontalface_alt.xml')
-    directory = '/home/puercopop/webapps/django/myproject/Uploads/'
-    target_directory = '/home/puercopop/webapps/django/myproject/Uploads/Portraits/'
+  cascade = cv.Load( join(settings.ROOT_DIR,'apps/WebUi/haarcascade_frontalface_alt.xml') )
+  directory=  join(settings.MEDIA_ROOT , 'Uploads/')
+  target_directory = join( directory, 'Portraits/')
     
   portrait_list = []
   

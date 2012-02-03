@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block local_includes %}
+<script type="text/javascript">
+   $(document).ready(function(){
+     $("input.portrait").autocomplete( {source:{{ autocomplete_list|safe }}} ); /*Hay que darle una lista de str "" */
+   });
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Falta el media Root Se da el photo path y una lista con los portrait paths encontrados-->
+  <div class="main-photo-container">
+    <form action="" method="POST" enctype="multipart/form-data">
+      <input name="file" class="left_column" type="file" value="Browse for photo" />
+      <!-- {{ form.as_p }}-->
+      <br />
+      <input id="submit" class="left_column btn" type="submit" value="Upload" />
+    </form>
+    {% if photo_path %}
+      <img path="{{ photo_path }}"src="{{ MEDIA_URL }}{{ photo_path }}" alt="" class="large" id="main_photo" />
+    {% else %}
+      <img src="no_image.png" alt="" class="large" id="main_photo" />
+    {% endif %}
+    
+
+  </div>
+  
+
+<!-- Falta hacer el loop con template -->
+
+  {% if portraits %}
+    {% for portrait in portraits %}
+
+      <div class="portrait-container" id="portrait_container_{{ forloop.counter }}">
+      
+        <form action="Portrait {{ forloop.counter }}.html" method="POST"> 
+          <img class="portrait" path="{{portrait.src}}" src="{{ MEDIA_URL }}{{ portrait.src }}" id="portrait_{{ forloop.counter }}" />
+        
+          <input class="portrait batsu" type="button" Value="X" num='{{ forloop.counter }}' >
+          <input class="portrait maru" type="button" Value="O" num='{{ forloop.counter }}'  >
+        
+          <input class="portrait" id="text_{{ forloop.counter }}" type="text" value="{{ portrait.name }}" />
+        </form>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+
+
+  <div class="info-box">
+  <h1>Instrucciones</h1>
+  <ul>
+    <li>Subir una fotos con rostros de perfil
+    <li>Rotular cada retrato y presionar 'O'
+    <li>En caso de un falso positivo, presionar 'X'
+    <li>Usar el mismo rótulo para cada persona. Aparecera una lista sugiriendo los nombres previamente ingresados.
+    <li>Puedes ver las fotos subidas en la <a href="gallery.html">Galería</a>
+  <ul>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+<!DOCTYPE html> 
+
+<html>
+  <head>
+    <meta enconding=utf8>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/WebUi.css">
+
+    <script src="{{ STATIC_URL }}js/jquery-1.6.4.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui-1.8.16.custom.min.js" ></script>
+    <script src="{{ STATIC_URL }}js/WebUi.js" ></script>
+    {% block local_includes %}{% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+
+  <body>
+    {% block content %}{% endblock %}
+  </body>

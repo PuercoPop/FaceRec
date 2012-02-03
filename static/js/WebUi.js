@@ -15,7 +15,7 @@ $(document).ready(function() {
 function click_maru()
 {
     /*Hay que mandar tanto el path como el identificador de la persona*/
-    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('src') , 'portrait_name': $('#text_' + $(this).attr('num')).val(),'parent_photo':$('#main_photo').attr('src') };
+    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('path') , 'portrait_name': $('#text_' + $(this).attr('num')).val(),'parent_photo':$('#main_photo').attr('path') };
     
     $.ajax({
       type: "POST",
@@ -47,7 +47,7 @@ function click_batsu()
 {
   /* Hay que mandar el filname a borrar y hacer .fadeOut a la div entero. Falta disable el Maru*/
      
-  var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('src') };
+  var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('path') };
   
   $('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
   $(this).prop('disabled', true);
