@@ -1,33 +1,21 @@
 {% extends "layouts/base.html" %}
 
-{% block local_includes %}
-<script type="text/javascript">
-   $(document).ready(function(){
-     $("input.portrait").autocomplete( {source:{{ autocomplete_list|safe }}} ); /*Hay que darle una lista de str "" */
-   });
-</script>
-{% endblock %}
-
 {% block content %}
-<!-- Falta el media Root Se da el photo path y una lista con los portrait paths encontrados-->
+
   <div class="main-photo-container">
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-      <input name="file" class="left_column" type="file" value="Browse for photo" />
-      <!-- {{ form.as_p }}-->
-      <br />
-      <input id="submit" class="left_column btn" type="submit" value="Upload" />
+      {% for field in form %}
+        <li>{{ field.errors }}</li>
+        <li> {{ field.label_tag }}: {{ field }}</li>
+      {% endfor %}
+      <li><input id="submit" class="left_column btn" type="submit" value="Upload" /></li>
     </form>
+
     {% if photo_path %}
       <img path="{{ photo_path }}"src="{{ MEDIA_URL }}{{ photo_path }}" alt="" class="large" id="main_photo" />
-    {% else %}
-      <!--<img src="no_image.png" alt="" class="large" id="main_photo" />-->
     {% endif %}
-    
-
   </div>
   
-
-<!-- Falta hacer el loop con template -->
 
   {% if portraits %}
     {% for portrait in portraits %}
