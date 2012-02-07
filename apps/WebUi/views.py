@@ -5,13 +5,15 @@ import re
 import os
 from os import listdir
 from os.path import join
-import testhaar
+
 import PhotoDatabase
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+
+#from helpers import find_faces
 import forms,models
 
 
@@ -19,24 +21,9 @@ def MainPage(request):
   return render_to_response( 'main_page.html', {} )
 
 def Galeria(request):
+  photos = models.Photo.objects.all()
 
-  photos = []
-  for photo in models.Photo.objects.all():
-    portraits = []
-    for portrait in models.Portrait.objects.filter( fromPhoto = photo ):
-      portraits.append({
-          'name': portrait.name,
-          'path': portrait.path, 
-          })
-
-    photos.append({
-        'name': photo.path,
-        'path': photo.path,
-        'portraits': portraits,
-        })
-
-
-  return render( request, 'WebUi/galleria.html', { 'photos':photos} )
+  return render( request, 'WebUi/gallery.html', { 'photos':photos} )
 
 
 def UploadPhoto(request):
@@ -44,47 +31,18 @@ def UploadPhoto(request):
   Falta introducir el predcitor
   """
   if request.method == 'POST':
-    photo_name = request.FILES['file'].name
-    photo_path = join( u'Uploads', request.FILES['file'].name )
-    handle_uploaded_file(request.FILES['file'])    
+    form = forms.UploadForm( request.POST, request.FILES )
+    if form.is_valid():
+      photo = form.save()
+      photo.find_faces()
+      #for portrait in photo.objects.portraits:
+      # print portrait
+      return render( request, 'WebUi/upload_photo.html', {'form':form,'photo': photo } )
     
-    portraits = testhaar.find_faces( photo_name )
-    p = models.Photo(path= photo_path)
-    p.save()
-    
-    
-    q = models.Portrait.objects.all()
-    portrait_pair = []
-    if q.count() > 2:#q tiene que ser mayor a 2 para que se pueda hacer una proyeccion
-      print 'Encontraron Rostros'
-      db = PhotoDatabase.PhotoDatabase()
-      db.process_db()
-      
-      for portrait_path in portraits:
-        p = db.evaluate_new_face( PhotoDatabase.Portrait(portrait_path,'blah').vectorize() )
-        if p:
-          portrait_pair.append( {'src':portrait_path,'name':p.name} )
-        else:
-          portrait_pair.append( {'src':portrait_path,'name':''} )
-      
-    else:
-      for portrait_path in portraits:
-        portrait_pair.append( {'src':portrait_path,'name':''} )
-    
-    fPass = True
-    autocomplete_list = u'['
-    for p in q.values('name').distinct('name'):
-      if fPass:
-        autocomplete_list += u'"' + p['name'] + u'"'
-        fPass = False
-      else:
-        autocomplete_list += u',"'+p['name'] + u'"'
-    autocomplete_list += u']'
-    
-    return render( request, 'WebUi/upload_photo.html', { 'photo_path': photo_path ,'portraits':portrait_pair, 'autocomplete_list':autocomplete_list} )
+    return render( request, 'WebUi/upload_photo.html', {'form':form} )
   else:
-    #form = forms.PhotoForm()
-    return render( request, 'WebUi/upload_photo.html', {'photo_path':'', 'portraits':'', })
+    form = forms.UploadForm()
+    return render( request, 'WebUi/upload_photo.html', {'photo_path':'', 'portraits':'', 'form': form })
   
 
 def handle_uploaded_file(file_data):
@@ -125,3 +83,12 @@ def Portrait_Rejected(request):
     return HttpResponse('Portrait_Rejected Sucess')
   else:
     return HttpResponse('Portrait_Rejected Failed')
+
+def delete_photo(request):
+  if request.method == 'POST':
+    photo = models.Photo.objects.get(pk= request.POST.get('photo_id',None))
+    for portrait in photo.portrait_set.all():
+      portrait.delete()
+    photo.delete()
+    return redirect(request.META.get('HTTP_REFERER','upload_photo.html'))
+  return HttpResponse('No POST info')

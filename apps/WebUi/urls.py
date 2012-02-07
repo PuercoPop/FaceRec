@@ -14,13 +14,17 @@ urlpatterns = patterns('',
                            name="gallery"
                            ),
 
-                       url(r'portrait_chosen',
+                       url(r'^portrait_chosen',
                            views.Portrait_Chosen,
                            name="portrait_chosen"
                            ),
 
-                       url(r'portrait_rejected',
+                       url(r'^portrait_rejected',
                            views.Portrait_Rejected,
                            name="portrait_rejected"
+                           ),
+                       url(r'^delete_photo',
+                           views.delete_photo,
+                           name="delete_photo"
                            ),
 )

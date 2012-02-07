@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+{% block local_includes %}
+  <script src="{{ STATIC_URL }}js/WebUi/gallery.js" ></script>
+{% endblock %}
+{% block title %}Galeria{% endblock %}
+
+{% block content %}
+<table>
+  {% for photo in photos %}
+    <tr>
+      <th>
+	<ul>
+	  <li> {{ photo.photo_name }} </li>
+	  <li> <img class="gallery" src="{{ photo.file.url }}"></li>
+	  <li> 
+	    <form action="delete_photo" method="POST">{% csrf_token %}
+	      <input name="photo_id" type="hidden" value="{{ photo.pk }}">
+	      <input type="submit" value="Delete this Photo">
+	    </form>
+	  </li>
+	</ul>
+        {% for portrait in photo.portrait_set.all %}
+	  <td>
+	    <ul>
+	      <li> {{ portrait.name }}
+	      <li><img class="gallery" src="{{ portrait.file.url }}">
+	    </ul>
+	{% endfor %}
+  {% endfor %}
+</table>
+{% endblock %}
