@@ -24,16 +24,11 @@ img#main_photo{
 
 
 img.portrait{
-  position:absolute;
-  top:0px;
-  left:0px;
   height:64px;
   width:64px;
 }
 
 input.batsu{
-  position:absolute;
-  top:0px;
   left:65px;
   width:24px;
   margin:0px;
@@ -51,9 +46,6 @@ input.maru{
 
 input[type="text"]{
   
-  position:absolute;
-  top:64px;
-  left:0px;
   width:88px;
   height:20px;
   padding:2px;
@@ -68,8 +60,6 @@ input:hover{
 }
 
 div.portrait-container{
-  position:absolute;
-  left:700px;
 }
 
 img.gallery {
