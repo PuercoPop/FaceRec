@@ -15,3 +15,59 @@ function getCookie(c_name)
     };
 
 
+function name_face( name, portrait_id )
+{
+    /*Hay que mandar tanto el path como el identificador de la persona*/
+    var data_params = { 
+	'portrait_name': name,
+	'portrait_id': portrait_id
+    };
+    
+    $.ajax({
+	type: "POST",
+	headers: {"X-CSRFToken": getCookie("csrftoken")},
+	url: "portrait_chosen",
+	data: data_params,
+	success: function(msg){
+            if(window.console)
+            {
+		console.log("Sucess Maru");
+            }
+	},
+	error: function(jqXHR, textStatus, errorThrown)
+	{
+            if(window.console)
+            {
+		console.log("Fail Maru");
+            }
+	}
+    });
+}
+
+function not_face()
+{
+  /* Hay que mandar el filname a borrar y hacer .fadeOut a la div entero. Falta disable el Maru*/
+     
+  var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('path') };
+  
+  $('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
+  
+  $.ajax({
+      type: "POST",
+      headers: {"X-CSRFToken": getCookie("csrftoken")},
+      url: "portrait_rejected",
+      data: data_params,
+      success: function(msg){
+         if(window.console)
+         {
+           console.log("Sucess Batsu");
+         }
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        if(window.console)
+         {
+           console.log("Fail Batsu");
+         }
+      }
+    });
+};

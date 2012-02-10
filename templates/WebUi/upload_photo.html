@@ -1,42 +1,19 @@
 {% extends "layouts/base.html" %}
+{% block local_includes %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/upload_photo.css">
+  <script src="{{ STATIC_URL }}js/WebUi/upload_photo.js"></script>
+{% endblock %}
 
 {% block content %}
 
-  <div class="main-photo-container">
-    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-      {% for field in form %}
-        <li>{{ field.errors }}</li>
-        <li> {{ field.label_tag }}: {{ field }}</li>
-      {% endfor %}
-      <li><input id="submit" class="left_column btn" type="submit" value="Upload" /></li>
-    </form>
-  </div>
+  <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    {% for field in form %}
+      <li>{{ field.errors }}</li>
+      <li> {{ field.label_tag }}: {{ field }}</li>
+    {% endfor %}
+    <li><input id="submit" class="left_column btn" type="submit" value="Upload" /></li>
+  </form>
 
-
-  {% if photo %}
-    <table>
-      <tr>
-	<th colspan="{{ photo.portrait_set.count }}">
-	  <img src="{{ photo.file.url }}" photo-id="{{ photo.pk }}">
-	</th>
-      </tr>
-      <tr>
-	{% for portrait in photo.portrait_set.all %}
-	  <td>
-	    <form action="Portrait {{ forloop.counter }}.html" method="POST"> 
-              <img class="portrait" path="{{portrait.src}}" src="{{ portrait.file.url }}" id="portrait_{{ forloop.counter }}" />
-        
-              <input class="portrait batsu" type="button" Value="X" num='{{ forloop.counter }}' >
-              <input class="portrait maru" type="button" Value="O" num='{{ forloop.counter }}'  >
-        
-              <input class="portrait" id="text_{{ forloop.counter }}" type="text" value="{{ portrait.name }}" />
-            </form>
-	  </td>
-	{% endfor %}
-      </tr>
-    </table>
-  {% endif %}
-  
   <div class="info-box">
   <h1>Instrucciones</h1>
   <ul>
@@ -48,4 +25,26 @@
   <ul>
   </div>
 
+  {% if photo %}
+    <table>
+      <tr>
+	<th colspan="{{ photo.portrait_set.count }}">
+	  <img src="{{ photo.file.url }}" photo-id="{{ photo.pk }}">
+	</th>
+      </tr>
+      <tr>
+	{% for portrait in photo.portrait_set.all %}
+	  <td>
+            <ul>
+	      <li>{{ portrait.filename }}</li>
+	      <li><img src="{{ portrait.file.url }}" portrait-id="{{ portrait.pk }}" /></li>
+              <li><input portrait-id="{{ portrait.pk }}" type="text"></li>
+              <li><input class="accept-face" type="button" value="Nombrar Rostro" portrait-id="{{ portrait.pk }}" ></li>
+              <li><input class="reject-face" type="button" value="No es un Rostro" portrait-id="{{ portrait.pk }}" ></li>
+	    </ul>
+	  </td>
+	{% endfor %}
+      </tr>
+    </table>
+  {% endif %}
 {% endblock %}

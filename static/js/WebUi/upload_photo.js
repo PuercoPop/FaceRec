@@ -3,46 +3,13 @@ $(document).ready(function() {
   if(window.console){
     console.log("Loading Document");    
   }
-  $('.maru').click(click_maru);
-  $('.batsu').click(click_batsu);
-  
-  $( "div.portrait-container").each( function( index,ele) { $(this).css('top', 90*(index+1) + 'px') } );
-  
-  
+    $('input.accept-face').click(function(){
+	name_face($('input[type="text"][portrait-id="'+ $(this).attr('portrait-id')+ '"]').val(), $(this).attr('portrait-id')  )
+	/*other logic here */
+    });
+  $('input.reject-face').click(not_face);
   
 });
-
-function click_maru()
-{
-    /*Hay que mandar tanto el path como el identificador de la persona*/
-    var data_params = { 'portrait_path' : $('#portrait_' + $(this).attr('num')).attr('path') , 'portrait_name': $('#text_' + $(this).attr('num')).val(),'parent_photo':$('#main_photo').attr('path') };
-    
-    $.ajax({
-	type: "POST",
-	headers: {"X-CSRFToken": getCookie("csrftoken")},
-	url: "portrait_chosen",
-	data: data_params,
-	success: function(msg){
-            if(window.console)
-            {
-		console.log("Sucess Maru");
-            }
-	},
-	error: function(jqXHR, textStatus, errorThrown)
-	{
-            if(window.console)
-            {
-		console.log("Fail Maru");
-            }
-	}
-    });
-    
-    $(this).css('color','#1FF507');
-    $(this).prop('disabled',true);
-  
-}
-
-
 
 function click_batsu()
 {
