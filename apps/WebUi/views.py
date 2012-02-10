@@ -61,17 +61,17 @@ def Portrait_Chosen(request):
   """
   
   if request.method == 'POST':
-    name = request.POST.get('portrait_name')
-    path = join(settings.MEDIA_ROOT, request.POST.get('portrait_path'))
-    parent_path = request.POST.get('parent_photo')
-        
-    portrait = PhotoDatabase.Portrait(path,name)
-    parent = models.Photo.objects.get(path=parent_path)
-    
-    p = models.Portrait(name=name,path=request.POST.get('portrait_path'),array=portrait.vector,fromPhoto=parent)
-    p.save()
+    name = request.POST.get('portrait_name', None)
+    portrait_id = request.POST.get('portrait_id', None)
+    portrait = models.Portrait.objects.get(pk = portrait_id )
+    portrait.name = name
+    portrait.isFace = True
+    portrait.save()
     
     return HttpResponse('Portrait_Chosen')
+
+  else:
+    return HttpResponse('No POST INFOO')
 
 def Portrait_Rejected(request):
   """

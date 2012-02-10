@@ -1,0 +1,10 @@
+div.info-box{
+ width:330px;
+ float:right;
+ background:#fff4c8;
+ border-width:4px;
+ border-color:black;
+ border-style:solid;
+ margin:5px;
+ padding:10px;
+}
