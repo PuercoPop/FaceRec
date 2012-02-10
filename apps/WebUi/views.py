@@ -78,8 +78,10 @@ def Portrait_Rejected(request):
   Remueve la imagen
   """
   if request.method == 'POST':
-    portrait_path = request.POST.get('portrait_id')#Remueve el / inicial
-    os.remove( join( settings.MEDIA_ROOT, portrait_path) )
+    portrait_id = request.POST.get('portrait_id', None)
+    portrait = models.Portrait.objects.get( pk = portrait_id )
+    portrait.isFace = False
+    portrait.save()
     return HttpResponse('Portrait_Rejected Sucess')
   else:
     return HttpResponse('Portrait_Rejected Failed')

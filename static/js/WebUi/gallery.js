@@ -1,5 +1,15 @@
 $(document).ready(function(){
     $('input.photo').click(delete_photo);
+    $('input.accept-face').click(function(){	
+	name_face($('input[type=text][portrait-id=' + $(this).attr('portrait-id') + ']').val(),
+		  $(this).attr('portrait-id'));
+	/* css magic goes here*/
+    });
+
+    $('input.reject-face').click(function(){
+	not_face($(this).attr('portrait-id'));
+	
+    });
 
 });
 

@@ -29,10 +29,10 @@
 	      <li><img class="gallery" src="{{ portrait.file.url }}"> </li>
 	      {% if portrait.isFace %}
 	      <li><label>{{ portrait.name }}</label></li>
-	      <li><input type="button" value="No es un Rostro"></li>
+	      <li><input portrait-id="{{ portrait.pk }}" class="reject-face" type="button" value="No es un Rostro"></li>
 	      {% else %}
-	      <li><input type="text"></li>
-	      <li><input type="button" value="Nombrar Rostro"></li>
+	      <li><input portrait-id="{{ portrait.pk }}" type="text"></li>
+	      <li><input portrait-id="{{ portrait.pk }}" class="accept-face"type="button" value="Nombrar Rostro"></li>
 	      {% endif %}
 	    </ul>
 	  </td>

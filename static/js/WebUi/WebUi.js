@@ -42,15 +42,15 @@ function name_face( name, portrait_id )
             }
 	}
     });
-}
+};
 
-function not_face()
+function not_face(portrait_id)
 {
   /* Hay que mandar el filname a borrar y hacer .fadeOut a la div entero. Falta disable el Maru*/
      
-  var data_params = { 'portrait_id' : $('#portrait_' + $(this).attr('num')).attr('path') };
+    var data_params = { 'portrait_id' : portrait_id};
   
-  $('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
+    //$('#portrait_container_'+$(this).attr('num')).fadeTo(1000, 0.3,"linear");
   
   $.ajax({
       type: "POST",
