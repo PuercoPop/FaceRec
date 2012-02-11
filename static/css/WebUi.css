@@ -4,7 +4,9 @@ img#main_photo{
   overflow:auto;
 }
 
-
+img.not-face {
+    opacity:0.3;
+}
 
 img.portrait{
   height:64px;

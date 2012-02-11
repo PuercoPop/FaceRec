@@ -24,15 +24,15 @@
 	</ul>
         {% for portrait in photo.portrait_set.all %}
 	  <td>
-	    <ul>
+	    <ul portrait-id="{{ portrait.pk }}">
 	      <li> {{ portrait.filename }} </li>
 	      <li><img class="gallery" src="{{ portrait.file.url }}"> </li>
 	      {% if portrait.isFace %}
-	      <li><label>{{ portrait.name }}</label></li>
-	      <li><input portrait-id="{{ portrait.pk }}" class="reject-face" type="button" value="No es un Rostro"></li>
+	      <li class="portrait-name"><label>{{ portrait.name }}</label></li>
+	      <li class="portrait-input"><input portrait-id="{{ portrait.pk }}" class="reject-face" type="button" value="No es un Rostro"></li>
 	      {% else %}
-	      <li><input portrait-id="{{ portrait.pk }}" type="text"></li>
-	      <li><input portrait-id="{{ portrait.pk }}" class="accept-face"type="button" value="Nombrar Rostro"></li>
+	      <li class="portrait-name"><input portrait-id="{{ portrait.pk }}" type="text"></li>
+	      <li class="portrait-input"><input portrait-id="{{ portrait.pk }}" class="accept-face" type="button" value="Nombrar Rostro"></li>
 	      {% endif %}
 	    </ul>
 	  </td>
