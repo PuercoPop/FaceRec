@@ -1,12 +1,12 @@
 
 * TODO [50%]
 
-- [-] Fix HTML/CSS [66%]
+- [-] Fix HTML/CSS [83%]
   - [X] Add HTML Elements to name Portraits
   - [X] Add Ajax to name Portraits
   - [X] Rewrite CSS
   - [X] Fix AJAX views to new parameters
-  - [ ] Fix the event handler to work after the call to the .html() method 
+  - [X] Fix the event handler to work after the call to the .html() method 
   - [ ] Add jquery-ui Autocumpelete or Another Field Showing the Suggestion
 - [X] Add Method to convert Image to Numpy-Array
 

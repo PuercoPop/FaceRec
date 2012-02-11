@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('input.photo').click(delete_photo);
-    $('input.accept-face').click(function(){	
+    $('input.accept-face').live( "click", function(){	
 	name_face($('input[type=text][portrait-id=' + $(this).attr('portrait-id') + ']').val(),
 		  $(this).attr('portrait-id'));
 	/* css magic goes here */
@@ -8,17 +8,17 @@ $(document).ready(function(){
 	    '<label>' + $('input[type=text][portrait-id=' + $(this).attr('portrait-id') + ']').val() + '</label>'
 	);
 	$('ul[portrait-id=' + $(this).attr('portrait-id') + '] > li.portrait-input').html(
-	    '<input portrait-id=" ' + $(this).attr('portrait-id') +' " class="reject-face" type="button" value="No es un Rostro">'
+	    '<input portrait-id="' + $(this).attr('portrait-id') + '" class="reject-face" type="button" value="No es un Rostro">'
 	);
     });
 
-    $('input.reject-face').click(function(){
+    $('input.reject-face').live( "click", function(){
 	not_face($(this).attr('portrait-id'));
 	$('ul[portrait-id=' + $(this).attr('portrait-id') + '] > li.portrait-name').html(
 	    '<input portrait-id="' + $(this).attr('portrait-id') +'" type="text">'
 	);
 	$('ul[portrait-id=' + $(this).attr('portrait-id') + '] > li.portrait-input').html(
-	    '<input portrait-id=" ' + $(this).attr('portrait-id') +' " class="accept-face" type="button" value="Nombrar Rostro">'
+	    '<input portrait-id="' + $(this).attr('portrait-id') +'" class="accept-face" type="button" value="Nombrar Rostro">'
 	);
     });
 
