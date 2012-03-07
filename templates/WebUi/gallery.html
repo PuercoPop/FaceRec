@@ -6,7 +6,7 @@
 {% block title %}Galeria{% endblock %}
 
 {% block content %}
-<a href="/">Regresar: Upload una foto</a>
+<a href="{% url upload_photo %}">Regresar: Upload una foto</a>
 <h1>Galería de Fotos</h1>
 <table>
   {% for photo in photos %}
@@ -26,7 +26,7 @@
 	  <td>
 	    <ul portrait-id="{{ portrait.pk }}">
 	      <li> {{ portrait.filename }} </li>
-	      <li><img class="gallery" src="{{ portrait.file.url }}"> </li>
+          <li><img class="gallery {% if portrait.isFace == None %}unknown-face{% endif %}" src="{{ portrait.file.url }}"> </li>
 	      {% if portrait.isFace %}
 	      <li class="portrait-name"><label>{{ portrait.name }}</label></li>
 	      <li class="portrait-input"><input portrait-id="{{ portrait.pk }}" class="reject-face" type="button" value="No es un Rostro"></li>

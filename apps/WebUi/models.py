@@ -5,7 +5,6 @@ from django.core.files import File
 from os.path import join, splitext
 
 
-
 class Photo(models.Model):
   file = models.ImageField( upload_to= 'Uploads')
 
@@ -92,12 +91,16 @@ class Photo(models.Model):
 class Portrait(models.Model):
   """
   guarda el nombre de la foto de la cual se retrato
+
+  -Cuando se modifica el atributo isFace y hay mas de N Rostros se debe
+  recalcular los parametros de distancia entre rostros y de distancia inter-
+  rostros.
   """
   name = models.CharField(max_length=100,blank=True)
   file = models.ImageField( upload_to='Uploads/Portraits')
   #array = models.CharField(max_length=200, null=True)#Array usar numpy.tostr method
   fromPhoto = models.ForeignKey('Photo')
-  isFace = models.BooleanField()
+  isFace = models.NullBooleanField()
 
   @property
   def as_vector(self):
@@ -114,6 +117,14 @@ class Portrait(models.Model):
   def __unicode__(self):
     return '%s is %s' % (self.file, self.name)
 
+class ProfileManager(models.Manager):
+    """
+    TODO
+    Cuando se da nombre se vuelve isFace true.
+    Cuando se pone isFace False se borra el link al profile / nombre
+    """
+    pass
+
 class Profile(models.Model):
   """
   """
@@ -122,4 +133,11 @@ class Profile(models.Model):
   std_dev = models.FloatField()
   portrait_list = models.ManyToManyField('Portrait')
 
+class ExtraProfileInfo(models.Model):
+    """
+    """
+    inter_portrait = models.FloatField()
+    intra_portrait = models.FloatField()
 
+    def __unicode__(self):
+        return u''

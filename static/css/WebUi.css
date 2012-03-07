@@ -4,6 +4,10 @@ img#main_photo{
   overflow:auto;
 }
 
+img.unknown-face{
+    border-color:red;
+    border-style:solid;
+}
 img.not-face {
     opacity:0.3;
 }
