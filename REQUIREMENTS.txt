@@ -1,0 +1,5 @@
+PIL
+numpy
+pyopencv
+psycopg2
+django
