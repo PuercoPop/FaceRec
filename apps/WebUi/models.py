@@ -6,116 +6,130 @@ from os.path import join, splitext
 
 
 class Photo(models.Model):
-  file = models.ImageField( upload_to= 'Uploads')
+    file = models.ImageField( upload_to= 'Uploads')
 
-  def find_faces(self):
-    cascade = cv.Load(join(settings.STATIC_ROOT,'other','haarcascade_frontalface_alt.xml'))
-    portrait_list = []
-    img = cv.LoadImage( self.file.path )
-    imgGray = cv.CreateImage( cv.GetSize(img), img.depth, 1)
-    cv.CvtColor(img, imgGray, cv.CV_BGR2GRAY)
+    def find_faces(self):
+        cascade = cv.Load(join(settings.STATIC_ROOT,
+            'other','haarcascade_frontalface_alt.xml'))
+        img = cv.LoadImage( self.file.path )
+        imgGray = cv.CreateImage( cv.GetSize(img), img.depth, 1)
+        cv.CvtColor(img, imgGray, cv.CV_BGR2GRAY)
 
-    faces = cv.HaarDetectObjects( imgGray, cascade, cv.CreateMemStorage(),)
-    
-    for counter , ((x, y, w, h), n) in enumerate(faces):
-        cv.SetImageROI( img, (x,y,w,h)) #Region of Interest
-        imgface = cv.CreateImage( cv.GetSize(img), img.depth, img.nChannels )
-        imgface_rsz = cv.CreateImage( (64,64), img.depth, img.nChannels )
-        cv.Copy(img, imgface )
-        cv.Resize( imgface, imgface_rsz, cv.CV_INTER_AREA )
-        portrait_name = ''.join( [splitext(self.filename)[0], '_', str(counter),'.png'] )
-        portrait_path = join( settings.MEDIA_ROOT,
+        faces = cv.HaarDetectObjects( imgGray, cascade, cv.CreateMemStorage(),)
+
+        for counter , ((x, y, w, h), n) in enumerate(faces):
+            cv.SetImageROI( img, (x, y, w, h) ) #Region of Interest
+            imgface = cv.CreateImage( cv.GetSize(img),
+                    img.depth,
+                    img.nChannels
+                    )
+            imgface_rsz = cv.CreateImage( (64, 64), img.depth, img.nChannels )
+            cv.Copy(img, imgface )
+            cv.Resize( imgface, imgface_rsz, cv.CV_INTER_AREA )
+            portrait_name = ''.join( [splitext(self.filename)[0],
+                '_',
+                str(counter),'.png']
+            )
+            portrait_path = join( settings.MEDIA_ROOT,
                               'Uploads',
                               'Portraits',
                               portrait_name )
-        portrait_alt_path = join( settings.MEDIA_ROOT,
+            portrait_alt_path = join( settings.MEDIA_ROOT,
                               'Temp',
                               portrait_name )
-        cv.SaveImage(portrait_alt_path, imgface_rsz)
-        tmp_portrait = open(portrait_alt_path,'r')
+            cv.SaveImage(portrait_alt_path, imgface_rsz)
+            tmp_portrait = open(portrait_alt_path,'r')
 
-        portrait_file = File(tmp_portrait)
-        portrait = Portrait ( file= portrait_file,
+            portrait_file = File(tmp_portrait)
+            portrait = Portrait ( file= portrait_file,
                               fromPhoto=self )
 
-        portrait.save()
-        tmp_portrait.close()
-        os.remove(portrait_alt_path)
-        cv.ResetImageROI(img)
+            portrait.save()
+            tmp_portrait.close()
+            os.remove(portrait_alt_path)
+            cv.ResetImageROI(img)
 
+    def find_faces_no_rsz(self):
+        cascade = cv.Load(join(settings.STATIC_ROOT,
+            'other','haarcascade_frontalface_alt.xml')
+            )
+        portrait_list = []
+        img = cv.LoadImage( self.file.path )
+        imgGray = cv.CreateImage( cv.GetSize(img), img.depth, 1)
+        cv.CvtColor(img, imgGray, cv.CV_BGR2GRAY)
 
-  
-  def find_faces_no_rsz(self):
-    cascade = cv.Load(join(settings.STATIC_ROOT,'other','haarcascade_frontalface_alt.xml'))
-    portrait_list = []
-    img = cv.LoadImage( self.file.path )
-    imgGray = cv.CreateImage( cv.GetSize(img), img.depth, 1)
-    cv.CvtColor(img, imgGray, cv.CV_BGR2GRAY)
+        faces = cv.HaarDetectObjects( imgGray, cascade, cv.CreateMemStorage(),)
 
-    faces = cv.HaarDetectObjects( imgGray, cascade, cv.CreateMemStorage(),)
-    
-    for counter , ((x, y, w, h), n) in enumerate(faces):
-        cv.SetImageROI( img, (x,y,w,h)) #Region of Interest
-        imgface = cv.CreateImage( cv.GetSize(img), img.depth, img.nChannels )
-        #imgface_rsz = cv.CreateImage( (128,128), img.depth, img.nChannels )
-        cv.Copy(img, imgface )
-        #cv.Resize( imgface, imgface_rsz, cv.CV_INTER_AREA )
-        portrait_name = ''.join( [splitext(self.filename)[0], '_', str(counter),'.png'] )
-        portrait_path = join( settings.MEDIA_ROOT,
+        for counter , ((x, y, w, h), n) in enumerate(faces):
+            cv.SetImageROI( img, (x, y, w, h) ) #Region of Interest
+            imgface = cv.CreateImage( cv.GetSize(img),
+                    img.depth,
+                    img.nChannels
+                    )
+            cv.Copy(img, imgface )
+            portrait_name = ''.join( [splitext(self.filename)[0],
+                '_',
+                str(counter),
+                '.png']
+            )
+            portrait_path = join( settings.MEDIA_ROOT,
                               'Uploads',
                               'Portraits',
                               portrait_name )
-        cv.SaveImage(portrait_path, imgface)
-        tmp_portrait = open(portrait_path,'r')
-        portrait_file = File(tmp_portrait)
-        portrait = Portrait ( file= portrait_file,
+            cv.SaveImage(portrait_path, imgface)
+            tmp_portrait = open(portrait_path,'r')
+            portrait_file = File(tmp_portrait)
+            portrait = Portrait ( file= portrait_file,
                               array='NULL',
                               fromPhoto=self )
 
-        portrait_list.append( portrait )
-        cv.ResetImageROI(img)
+            portrait_list.append( portrait )
+            cv.ResetImageROI(img)
 
-    return portrait_list
+        return portrait_list
 
-  @property
-  def filename(self):
-    return self.file.name.split('/')[-1]
+    @property
+    def filename(self):
+        return self.file.name.split('/')[-1]
 
-  def delete(self):
-    os.remove( self.file.path )
-    super(Photo, self).delete()
+    def delete(self):
+        os.remove( self.file.path )
+        super(Photo, self).delete()
 
-  def __unicode__(self):
-    return '%s' % (self.file)
+    def __unicode__(self):
+        return '%s' % (self.file)
 
 class Portrait(models.Model):
-  """
-  guarda el nombre de la foto de la cual se retrato
+    """
+    guarda el nombre de la foto de la cual se retrato
 
-  -Cuando se modifica el atributo isFace y hay mas de N Rostros se debe
-  recalcular los parametros de distancia entre rostros y de distancia inter-
-  rostros.
-  """
-  name = models.CharField(max_length=100,blank=True)
-  file = models.ImageField( upload_to='Uploads/Portraits')
-  #array = models.CharField(max_length=200, null=True)#Array usar numpy.tostr method
-  fromPhoto = models.ForeignKey('Photo')
-  isFace = models.NullBooleanField()
+    -Cuando se modifica el atributo isFace y hay mas de N Rostros se debe
+    recalcular los parametros de distancia entre rostros y de distancia inter-
+    rostros.
+    """
+    name = models.CharField(max_length=100, blank=True)
+    file = models.ImageField( upload_to='Uploads/Portraits')
+    #Array usar numpy.tostr method
+    #array = models.CharField(max_length=200, null=True)
+    fromPhoto = models.ForeignKey('Photo')
+    isFace = models.NullBooleanField()
 
-  @property
-  def as_vector(self):
-    return numpy.asmatrix( PIL.Image.ope( self.file.path  ) ).convert("L").reshape(1,-1)
+    @property
+    def as_vector(self):
+        return numpy.asmatrix(
+                PIL.Image.open( self.file.path  )
+                ).convert("L").reshape(1,-1)
 
-  @property
-  def filename(self):
-    return self.file.name.split('/')[-1]
+    @property
+    def filename(self):
+        return self.file.name.split('/')[-1]
 
-  def delete(self):
-    os.remove( self.file.path )
-    super(Portrait, self).delete()
+    def delete(self):
+        os.remove( self.file.path )
+        super(Portrait, self).delete()
 
-  def __unicode__(self):
-    return '%s is %s' % (self.file, self.name)
+    def __unicode__(self):
+        return '%s is %s' % (self.file, self.name)
 
 class ProfileManager(models.Manager):
     """
@@ -126,16 +140,30 @@ class ProfileManager(models.Manager):
     pass
 
 class Profile(models.Model):
-  """
-  """
-  name = models.CharField(max_length=20,primary_key=True)
-  mean = models.FloatField()
-  std_dev = models.FloatField()
-  portrait_list = models.ManyToManyField('Portrait')
+    name = models.CharField(max_length=20, primary_key=True)
+    mean = models.FloatField()
+    std_dev = models.FloatField()
+    portrait_list = models.ManyToManyField('Portrait')
+
+    def calculate_profile_parameters(self):
+        """
+        Calculate mean image and intra-profile distance
+        """
+        mean = None
+        for portrait in self.portrait_list:
+            if mean is None:
+                mean = numpy.copy( portrait.as_vector() )
+            else:
+                mean = numpy.vstack( (mean, portrait.as_vector() ) )
+        mean.mean( axis = 0 )
+        #Now calculate intra-profile distance
+        avg_distance = 0
+        for portrait in self.portrait_list:
+            avg_distance += mean - portrait.as_vector
+        avg_distance = avg_distance / self.portrait_list.count()
+
 
 class ExtraProfileInfo(models.Model):
-    """
-    """
     inter_portrait = models.FloatField()
     intra_portrait = models.FloatField()
 
