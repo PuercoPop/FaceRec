@@ -113,12 +113,17 @@ class Portrait(models.Model):
     #array = models.CharField(max_length=200, null=True)
     fromPhoto = models.ForeignKey('Photo')
     isFace = models.NullBooleanField()
+    objects = ProfileManager()
 
     @property
     def as_vector(self):
         return numpy.asmatrix(
                 PIL.Image.open( self.file.path  )
                 ).convert("L").reshape(1,-1)
+
+    @property
+    def as_difference_vector(self):
+        return self.mean - self.as_vector()
 
     @property
     def filename(self):
@@ -137,7 +142,12 @@ class ProfileManager(models.Manager):
     Cuando se da nombre se vuelve isFace true.
     Cuando se pone isFace False se borra el link al profile / nombre
     """
-    pass
+    def mean_vector(self):
+        mean_vector = 0
+        for portrait in super(ProfileManager, self.get_query_set()):
+            portrait.as_vector()
+
+        return mean_vector
 
 class Profile(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
@@ -149,14 +159,19 @@ class Profile(models.Model):
         """
         Calculate mean image and intra-profile distance
         """
-        mean = None
+        m_portraits = None
         for portrait in self.portrait_list:
-            if mean is None:
-                mean = numpy.copy( portrait.as_vector() )
+            if m_portraits is None:
+                m_portraits = numpy.copy( portrait.as_vector() )
             else:
-                mean = numpy.vstack( (mean, portrait.as_vector() ) )
-        mean.mean( axis = 0 )
+                m_portraits = numpy.vstack(
+                        (m_portraits, portrait.as_vector() )
+                        )
+        mean = m_portraits.mean( axis = 0 )
         #Now calculate intra-profile distance
+        m_portraits -= mean
+        m_portraits = m_portraits.average( axis = 0)
+        #1st method
         avg_distance = 0
         for portrait in self.portrait_list:
             avg_distance += mean - portrait.as_vector
